@@ -1,73 +1,69 @@
-# jobnest
+# JobNest
 
-This template should help get you started developing with Vue 3 in Vite.
+Tracker de postulaciones de empleo construido con Vue 3 + TypeScript. Es una app
+**standalone con datos de demostración en memoria** (sin backend): ideal como demo
+de arquitectura frontend moderna.
 
-## Recommended IDE Setup
+![CI](https://github.com/LuisRamirez2328/jobnest/actions/workflows/ci.yml/badge.svg)
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Características
 
-## Recommended Browser Setup
+- **Dashboard**: KPIs de la búsqueda (total, en proceso, ofertas, tasa de respuesta),
+  gráficas por mes y por etapa (ECharts, cargado de forma diferida) y actividad reciente.
+- **Pipeline (kanban)**: columnas por etapa con drag & drop nativo, botón `+` por
+  columna y menú por tarjeta.
+- **Postulaciones**: tabla con búsqueda, filtros por etapa/modalidad, ordenamiento y
+  CRUD completo (crear, ver, editar, eliminar con confirmación).
+- **Formulario validado** con vee-validate + zod.
+- **Tema claro/oscuro** persistido, detección de preferencia del sistema.
+- **Spa con rutas lazy**, modo oscuro por clase Tailwind v4, componentes shadcn-vue
+  (reka-ui + lucide).
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## Stack
 
-## Type Support for `.vue` Imports in TS
+- Vue 3 (Composition API, `<script setup>`) + TypeScript
+- Vite 8 + Vue Router + Pinia
+- TanStack Vue Query (estado servidor sobre el mock en memoria)
+- Tailwind CSS v4 + shadcn-vue (reka-ui, lucide)
+- vee-validate + zod, vue-echarts, vue-sonner
+- Vitest (unit) + Playwright (E2E), oxlint + prettier, GitHub Actions
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Scripts
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```bash
+npm install        # instalar dependencias
+npm run dev        # servidor de desarrollo
+npm run lint       # oxlint
+npm run type-check # vue-tsc
+npm run test:unit  # vitest
+npm run build      # type-check + build de producción
+npm run preview    # servir el build
+npm run test:e2e   # Playwright (Chromium instalado: npx playwright install chromium)
 ```
 
-### Compile and Hot-Reload for Development
+## Estructura
 
-```sh
-npm run dev
+```
+src/
+├── components/
+│   ├── applications/   # tarjetas, kanban, dialog, detalle, filtros, badges
+│   ├── dashboard/      # gráficas echarts con carga diferida
+│   ├── layout/         # header, navegación, theme toggle
+│   └── ui/             # componentes shadcn-vue
+├── composables/        # useApplications (queries/mutations), useApplicationModals
+├── services/           # tipos, mock en memoria, API simulada con latencia
+├── stores/             # pinia: theme, filters
+└── views/              # Dashboard, Board, Applications, NotFound
 ```
 
-### Type-Check, Compile and Minify for Production
+## Calidad
 
-```sh
-npm run build
-```
+- 42 tests unitarios (services, stores, componentes) + 11 tests E2E (flujo completo).
+- CI en GitHub Actions: lint, type-check, unit tests, build y E2E en Chromium.
+- Rendimiento: rutas lazy y ECharts en chunk independiente (~9 kB inicial en Dashboard
+  en vez de ~550 kB).
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## Demo
 
-```sh
-npm run test:unit
-```
-
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
-
-```sh
-# Install browsers for the first run
-npx playwright install
-
-# When testing on CI, must build the project first
-npm run build
-
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+El mock inyecta 14 postulaciones de ejemplo al cargar; los cambios viven solo en
+memoria y se reinician al recargar la página.
