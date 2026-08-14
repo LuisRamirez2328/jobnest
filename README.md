@@ -69,3 +69,5 @@ src/
 
 El mock inyecta 14 postulaciones de ejemplo al cargar; los cambios viven solo en
 memoria y se reinician al recargar la página.
+
+**Demo en vivo**: https://luisramirez2328.github.io/jobnest/
