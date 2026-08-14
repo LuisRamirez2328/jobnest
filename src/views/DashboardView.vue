@@ -144,7 +144,7 @@ const pieOption = computed(() => {
     </div>
 
     <div class="grid grid-cols-2 gap-4 lg:grid-cols-4" aria-label="Resumen de postulaciones">
-      <Card v-for="card in cards" :key="card.label">
+      <Card v-for="card in cards" :key="card.id">
         <CardHeader class="flex-row items-center justify-between space-y-0 pb-2">
           <CardDescription>{{ card.label }}</CardDescription>
           <component :is="card.icon" class="size-4 text-muted-foreground" aria-hidden="true" />
@@ -156,15 +156,17 @@ const pieOption = computed(() => {
           <p v-if="card.hint" class="mt-0.5 text-xs text-muted-foreground">{{ card.hint }}</p>
         </CardContent>
       </Card>
-      <Card v-if="!stats" class="grid-cols-2 lg:grid-cols-4">
-        <CardHeader class="space-y-0 pb-2">
-          <Skeleton class="h-4 w-24" />
-        </CardHeader>
-        <CardContent class="space-y-2">
-          <Skeleton class="h-8 w-16" />
-          <Skeleton class="h-3 w-28" />
-        </CardContent>
-      </Card>
+      <template v-if="!stats">
+        <Card v-for="i in 4" :key="i">
+          <CardHeader class="flex-row items-center justify-between space-y-0 pb-2">
+            <Skeleton class="h-4 w-24" />
+          </CardHeader>
+          <CardContent class="space-y-2">
+            <Skeleton class="h-7 w-16" />
+            <Skeleton class="h-3 w-28" />
+          </CardContent>
+        </Card>
+      </template>
     </div>
 
     <div class="grid gap-4 lg:grid-cols-5">
