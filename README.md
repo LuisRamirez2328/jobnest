@@ -60,6 +60,8 @@ src/
 
 - 42 tests unitarios (services, stores, componentes) + 11 tests E2E (flujo completo).
 - CI en GitHub Actions: lint, type-check, unit tests, build y E2E en Chromium.
+- Lighthouse: 100 accesibilidad / 100 SEO / 100 best practices / 96 performance
+  (skeletons con altura estable para evitar layout shift y meta/robots básicos).
 - Rendimiento: rutas lazy y ECharts en chunk independiente (~9 kB inicial en Dashboard
   en vez de ~550 kB).
 
